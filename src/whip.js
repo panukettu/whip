@@ -34,11 +34,6 @@ whip
   .action(jira.login);
 
 whip
-  .command("who")
-  .description("login to jira")
-  .action(jira.who);
-
-whip
   .command("clear")
   .description("reset saved data")
   .action(() => {
