@@ -2,6 +2,7 @@
 
 const whip = require("commander");
 const JiraHelper = require("./jira");
+const { speak, warn, error } = require("./helpers");
 
 if (typeof localStorage === "undefined" || localStorage === null) {
   var LocalStorage = require("node-localstorage").LocalStorage;
@@ -14,16 +15,16 @@ whip.version("1.0.0");
 
 whip
   .command("work <issueId> <hours> <description>")
-  .description("add a worklog to a jira issue")
+  .description("adds a worklog to a jira issue")
   .action((work, issueId, description) => {
     if (jira.isAuthenticated() && jira.hasApiUrl()) {
       jira.logWork(work, issueId, description);
     } else {
       !jira.isAuthenticated() &&
-        console.info(
+        warn(
           `You must authenticate to JIRA using 'whip login [username] [password]'`
         );
-      !jira.hasApiUrl() && console.info(`You must set an API url for JIRA`);
+      !jira.hasApiUrl() && warn(`You must set an API url for JIRA`);
     }
   });
 
@@ -41,7 +42,7 @@ whip
   .command("storage <key>")
   .description("check storage values for [key]")
   .action(key => {
-    console.info(localStorage.getItem(key));
+    speak(localStorage.getItem(key));
   });
 
 whip
@@ -49,7 +50,7 @@ whip
   .description("clear storage")
   .action(() => {
     localStorage.clear();
-    console.info(`Removed items from localStorage`);
+    speak(`*  Removed items from localStorage`);
   });
 
 whip.parse(process.argv);
