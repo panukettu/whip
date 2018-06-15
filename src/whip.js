@@ -35,10 +35,7 @@ whip
 whip
   .command("api <url>")
   .description("set api url")
-  .action(apiUrl => {
-    localStorage.setItem("jiraApiUrl", apiUrl);
-    console.info(`Set JIRA API as ${apiUrl}`);
-  });
+  .action(jira.setApi);
 
 whip
   .command("storage <key>")

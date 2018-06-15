@@ -42,12 +42,26 @@ class JiraHelper {
       "jiraApiUrl"
     )}/issue/${issueId}/worklog`;
 
-    console.log(url);
-
     fetch(url, reqOptions)
       .then(res => res.json())
-      .then(json => console.log(json))
+      .then(json => {
+        console.info(
+          `Created worklog at: ${localStorage.getItem(
+            "jiraUrl"
+          )}/browse/${issueId}`
+        );
+      })
       .catch(err => console.log(err));
+  }
+
+  setApi(apiUrl) {
+    localStorage.setItem("jiraApiUrl", apiUrl);
+    console.info(`Set JIRA API as ${apiUrl}`);
+    const array = apiUrl.split("/");
+
+    const baseUrl = `${array[0]}//${array[2]}`;
+    localStorage.setItem("jiraUrl", baseUrl);
+    console.info(`Set JIRA API as ${apiUrl} - Base URL ${baseUrl}`);
   }
 
   isAuthenticated() {
