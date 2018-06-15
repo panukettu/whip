@@ -38,10 +38,13 @@ class JiraHelper {
       method: "POST"
     };
 
-    fetch(
-      `http://jira.mloy.fi/rest/api/latest/issue/${issueId}/worklog`,
-      reqOptions
-    )
+    const url = `${localStorage.getItem(
+      "jiraApiUrl"
+    )}/issue/${issueId}/worklog`;
+
+    console.log(url);
+
+    fetch(url, reqOptions)
       .then(res => res.json())
       .then(json => console.log(json))
       .catch(err => console.log(err));
@@ -49,6 +52,10 @@ class JiraHelper {
 
   isAuthenticated() {
     return !!localStorage.getItem("jiraAuth");
+  }
+
+  hasApiUrl() {
+    return !!localStorage.getItem("jiraApiUrl");
   }
 }
 
